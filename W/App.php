@@ -65,9 +65,6 @@ class App
 			'security_role_property' => 'role',				//nom de la colonne pour le "role"
 
 			'security_login_route_name' => 'login',			//nom de la route affichant le formulaire de connexion
-
-			// configuration globale
-			'site_name'	=> '', 								// contiendra le nom du site
 		];
 
 		//remplace les configurations par défaut par celle de l'appli
@@ -97,7 +94,7 @@ class App
 
 	/**
 	 * Retourne le routeur
-	 * @return \AltoRouter Le routeur
+	 * @return  \AltoRouter Le routeur
 	 */
 	public function getRouter()
 	{
@@ -111,20 +108,5 @@ class App
 	public function getBasePath()
 	{
 		return $this->basePath;
-	}
-
-	/**
-	 * Retourne le nom de la route actuelle
-	 * @return mixed Le nom de la route actuelle depuis \AltoRouter ou le false
-	 */
-	public function getCurrentRoute(){
-
-		$route = $this->getRouter()->match();
-		if($route){
-			return $route['name'];
-		}
-		else {
-			return false;
-		}
 	}
 }

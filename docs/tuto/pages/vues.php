@@ -6,8 +6,8 @@
 
 <h3>Comment créer un nouveau fichier de vue ? </h3>
 <h4>Où placer ses fichiers de vues ?</h4>
-<p>Donnée importante à connaître : W vous impose de placer vos fichiers de vues sous le dossier <span class="code">app/Views/</span>. Outre cette règle, vous êtes libre de faire comme bon vous semble.</p>
-<p>Ceci étant, la plupart des pages de votre application devrait avoir un fichier de vue propre. Ainsi, il devrait y avoir à peu près autant de routes que de méthodes de contrôleur que de fichiers de vue dans votre application. Il est donc important de les classer un minimum, afin de s'y retrouver. Pour cette raison, W vous suggère de placer vos fichiers de vue dans des répertoires portant le même nom que son contrôleur (sans le suffixe Controller, et en minuscule). Ainsi, si vous avez un <span class="code">PostController</span> et un <span class="code">UserController</span> dans votre application, vous devriez avoir un dossier de vues nommé <span class="code">app/Views/post/</span> et un autre nommé <span class="code">app/Views/user/</span>. Ce n'est toutefois qu'une convention suggérée.</p>
+<p>Donnée importante à connaître : W vous impose de placer vos fichiers de vues sous le dossier <span class="code">app/templates/</span>. Outre cette règle, vous êtes libre de faire comme bon vous semble.</p>
+<p>Ceci étant, la plupart des pages de votre application devrait avoir un fichier de vue propre. Ainsi, il devrait y avoir à peu près autant de routes que de méthodes de contrôleur que de fichiers de vue dans votre application. Il est donc important de les classer un minimum, afin de s'y retrouver. Pour cette raison, W vous suggère de placer vos fichiers de vue dans des répertoires portant le même nom que son contrôleur (sans le suffixe Controller, et en minuscule). Ainsi, si vous avez un <span class="code">PostController</span> et un <span class="code">UserController</span> dans votre application, vous devriez avoir un dossier de vues nommé <span class="code">app/templates/post/</span> et un autre nommé <span class="code">app/templates/user/</span>. Ce n'est toutefois qu'une convention suggérée.</p>
 <p>Les fichiers de vue doivent avoir l'extension <span class="code">.php</span>.</p>
 <h4>Que contient un fichier de vue ?</h4>
 <p>Au plus simple, un fichier de vue ne doit contenir qu'une page HTML complète. Lorsque votre contrôleur déclenchera l'affichage de votre fichier de vue, il enverra le contenu de celui-ci en réponse au client.</p>
@@ -15,13 +15,13 @@
 
 <h3>Les CSS, les JS et les images</h3>
 <p>Tous les fichiers publics de votre application (<em>publics</em> dans le sens que vous considérez qu'un internaute doit pouvoir l'afficher directement dans son navigateur) doivent se trouver dans le dossier <span class="code">web/</span>. Autrement, le navigateur n'y aura tout simplement pas accès. Ainsi, vos fichiers .css, .js et vos images (souvent nommés <em>assets</em>) devront nécessairement y être placés.</p>
-<p>En fait, W prend pour acquis que ces fichiers seront dans le sous-répertoire <span class="code">public/assets/</span>, afin de ranger plus finement ce dossier <span class="code">web/</span>.</p>
+<p>En fait, W prend pour acquis que ces fichiers seront dans le sous-répertoire <span class="code">web/assets/</span>, afin de ranger plus finement ce dossier <span class="code">web/</span>.</p>
 <p>À l'exception de cette convention, vous faites vos styles et votre JavaScript comme dans toutes applications classiques : W est un framework back-end, et ne se préoccuppe pas de ce que vous faites côté client.</p>
 
 <h3>Les méthodes PHP disponibles</h3>
 <p>Puisque vos fichiers de vue sont des fichiers PHP, toutes les fonctions et structures de contrôles habituelles sont disponibles.</p>
 <p>Mais Plates et W ajoutent quelques méthodes utiles par défaut :</p>
-<pre><code>/* app/Views/default/home.php */
+<pre><code>/* app/templates/default/home.php */
 &lt;!DOCTYPE html>
 &lt;html lang="en">
 &lt;head>
@@ -44,17 +44,6 @@
 		//joli print_r sur la variable toujours disponible $w_user
 		//elle contiendra les données sur l'utilisateur connecté, ou sera null sinon
 		debug($w_user);
-
-		// affichera le nom de la route actuelle
-		echo $w_current_route;
-
-		// affichera le nom du site défini dans le fichier de configuration
-		echo $w_site_name;
-
-		// le flash message contient deux propriétés :
-		echo $w_flash_message->message; // Le message utilisateur
-		echo $w_flash_message->level; // Le niveau du flash message (utile pour les classes CSS par exemple)
-
 	?>
 &lt;/body>
 &lt;/html>
@@ -73,7 +62,7 @@ public function demo()
 </code></pre>
 
 Et dans la vue, la variable <span class="code">$username</span> est automatiquement disponible : 
-<pre><code>/* app/Views/default/demo.php */
+<pre><code>/* app/templates/default/demo.php */
 
 &lt;!-- reste du code -->
 &lt;p>Pseudo : &lt;?= $username ?>&lt;/p>
@@ -81,7 +70,7 @@ Et dans la vue, la variable <span class="code">$username</span> est automatiquem
 <h3>Les layouts et l'héritage</h3>
 <p>Plates fournit un excellente système pour éviter la répétition des codes HTML communs à toutes les pages de votre application. Ce système est inspiré de Twig.</p>
 <h4>Le layout</h4>
-<p>Tout d'abord, vous créez un fichier contenant votre squelette HTML, qui sera commun à toutes les pages de votre application. On appelle souvent ce fichier le <em>layout</em>. Il peut être sauvegardé à la racine du dossier <span class="code">app/Views/</span>, vue son importance.</p>
+<p>Tout d'abord, vous créez un fichier contenant votre squelette HTML, qui sera commun à toutes les pages de votre application. On appelle souvent ce fichier le <em>layout</em>. Il peut être sauvegardé à la racine du dossier <span class="code">app/templates/</span>, vue son importance.</p>
 <pre><code>&lt;!DOCTYPE html>
 &lt;html lang="fr">
 &lt;head>
@@ -108,13 +97,13 @@ Et dans la vue, la variable <span class="code">$username</span> est automatiquem
 
 <h4>Hériter du layout</h4>
 <p>Pour qu'une page hérite de ce layout, il suffit de le spécifier au haut de la page, avec la méthode <span class="code">layout()</span> de Plates.</p>
-<pre><code>/* app/Views/default/home.php */
+<pre><code>/* app/templates/default/home.php */
 &lt;?php $this->layout('layout'); ?>
 </code></pre>
 <p>Cet appel à la méthode <span class="code">layout()</span> spécifie au moteur de template que nous souhaitons hériter du contenu du fichier <span class="code">layout.php</span> (le paramètre passé à la méthode).</p>
 <p>À la manière d'une classe PHP qui hérite des propriétés et des méthodes d'une classe parente, notre fichier <span class="code">home.php</span> hérite du contenu du fichier <span class="code">layout.php</span>. Mais si nous le souhaitons, nous pouvons écraser, ou redéfinir, le contenu de toutes les sections qui ont été définies par la méthode <span class="code">section()</span> du fichier parent. Dans notre exemple, la section définie dans le layout se nomme <span class="code">main_content</span>.</p>
 <p>Pour délimiter le contenu que l'on souhaite placer dans cette section, on utilise les méthodes <span class="code">start()</span> et <span class="code">stop()</span>.</p>
-<pre><code>/* app/Views/default/home.php */
+<pre><code>/* app/templates/default/home.php */
 &lt;?php $this->layout('layout'); ?>
 
 &lt;?php $this->start('main_content') ?>
@@ -127,7 +116,7 @@ Et dans la vue, la variable <span class="code">$username</span> est automatiquem
 
 <h4>Définir plusieurs sections</h4>
 <p>Vous l'aurez peut-être deviné : il est possible de définir autant de sections que vous le souhaitez dans le layout, et de remplacer seulement les sections que vous avez besoin de redéfinir à partir des fichiers de vue enfants.</p>
-<p>Par exemple, nous pouvons créer une section qui permettrait d'ajouter des fichiers css et des fichiers js facilement, à partir de n'importe quelle page du site : </p>
+<p>Par exemple, nous pouvons créons une section qui permettrait d'ajouter des fichiers css et des fichiers js facilement, à partir de n'importe quelle page du site : </p>
 <pre><code>&lt;!DOCTYPE html>
 &lt;html lang="fr">
 &lt;head>
@@ -157,7 +146,7 @@ Et dans la vue, la variable <span class="code">$username</span> est automatiquem
 </code></pre>
 
 <p>Et à partir de n'importe quelle page du site : </p>
-<pre><code>/* app/Views/default/home.php */
+<pre><code>/* app/templates/default/home.php */
 &lt;?php $this->layout('layout'); ?>
 
 &lt;?php $this->start('main_content') ?>

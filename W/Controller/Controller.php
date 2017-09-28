@@ -2,26 +2,21 @@
 
 namespace W\Controller;
 
-use W\Security\AuthentificationModel;
-use W\Security\AuthorizationModel;
+use W\Security\AuthentificationManager;
+use W\Security\AuthorizationManager;
 
 /**
- * Le contrôleur de base à étendre
+ * Le contrôleur de base à extender
  */
 class Controller 
 {
-
-	/**
-	 * Constante du chemin du dossier des vues
-	 */
-	const PATH_VIEWS = '../app/Views';
 
 	/**
 	 * Génère l'URL correspondant à une route nommée
 	 * @param  string $routeName Le nom de route
 	 * @param  mixed  $params    Tableau de paramètres optionnel de cette route
 	 * @param  boolean $absolute Retourne une url absolue si true (relative si false)
-	 * @return L'URL correspondant à la route
+	 * @return  L'URL correspondant à la route
 	 */
 	public static function generateUrl($routeName, $params = array(), $absolute = false)
 	{
@@ -31,7 +26,7 @@ class Controller
     	$router = $app->getRouter();
     	$routeUrl = $router->generate($routeName, $params);
 		$url = $routeUrl;
-		if($absolute){
+		if ($absolute){
 	    	$u = \League\Url\Url::createFromServer($_SERVER);
 			$url = $u->getBaseUrl() . $routeUrl;
 		}
@@ -59,68 +54,34 @@ class Controller
     	$this->redirect($uri);
 	}
 
-	/** 
-	 * Affiche un flash message
-	 * @param string $message Le message que l'on souhaite afficher
-	 * @param string $level Le type de message flash (default, info, success, danger, warning)
-	 */
-	public function flash($message, $level = 'info'){
-
-		$allowLevel = ['default', 'info', 'success', 'danger', 'warning'];
-
-		if(!in_array($level, $allowLevel)){
-			$level = 'info';
-		}
-
-		$_SESSION['flash'] = [
-			'message' 	=> (!isset($message) || empty($message)) ? 'No message defined' : ucfirst($message),
-			'level'	 	=> $level,
-		];
-
-		return;
-	}
-
 
 	/**
 	 * Affiche un template
-	 * @param string $file Chemin vers le template, relatif à app/Views/
-	 * @param array  $data Données à rendre disponibles à la vue
+	 * 
+	 * @param  string $file Chemin vers le template, relatif à app/templates/
+	 * @param  array  $data Données à rendre disponibles à la vue
 	 */
 	public function show($file, array $data = array())
 	{
-		//incluant le chemin vers nos vues
-		$engine = new \League\Plates\Engine(self::PATH_VIEWS);
+		//incluant le chemin vers nos templates
+		$engine = new \League\Plates\Engine('../app/templates');
 
 		//charge nos extensions (nos fonctions personnalisées)
 		$engine->loadExtension(new \W\View\Plates\PlatesExtensions());
 
-		// le flash message
-		$flash_message = (isset($_SESSION['flash']) && !empty($_SESSION['flash'])) ? (object) $_SESSION['flash'] : null;
-
-		// 
-		$app = getApp();		
-
-		// Rend certaines données disponibles à tous les vues
-		// accessible avec $w_user & $w_current_route dans les fichiers de vue
+		//rend certaines données disponibles à tous les templates
+		//accessible avec $w_user dans les fichiers de vue
 		$engine->addData(
-			[
-				'w_user' 		  => $this->getUser(),
-				'w_current_route' => $app->getCurrentRoute(),
-				'w_site_name'	  => $app->getConfig('site_name'),
-				'w_flash_message' => $flash_message,
-			]
+			array(
+				"w_user" => $this->getUser()
+			)
 		);
 
-		// Retire l'éventuelle extension .php
-		$file = str_replace('.php', '', $file);
+		//retire l'éventuelle extension .php
+		$file = str_replace(".php", "", $file);
 
 		// Affiche le template
 		echo $engine->render($file, $data);
-		
-		// Supprime les messages flash pour qu'ils n'apparaissent qu'une fois
-		if(isset($_SESSION['flash'])) {
-			unset($_SESSION['flash']);
-		}
 		die();
 	}
 
@@ -131,12 +92,12 @@ class Controller
 	{
 		header('HTTP/1.0 403 Forbidden');
 
-		$file = self::PATH_VIEWS.'/w_errors/403.php';
-		if(file_exists($file)){
+		$file = '../app/templates/w_errors/403.php';
+		if (file_exists($file)){
 			$this->show('w_errors/403');
 		}
 		else {
-			die('403');
+			die("403");
 		}
 	}
 
@@ -145,14 +106,15 @@ class Controller
 	 */
 	public function showNotFound()
 	{
+		//@todo 404
 		header('HTTP/1.0 404 Not Found');
 
-		$file = self::PATH_VIEWS.'/w_errors/404.php';
-		if(file_exists($file)){
+		$file = '../app/templates/w_errors/404.php';
+		if (file_exists($file)){
 			$this->show('w_errors/404');
 		}
 		else {
-			die('404');
+			die("404");
 		}	
 	}
 
@@ -161,23 +123,24 @@ class Controller
 	 */
 	public function getUser()
 	{
-		$authenticationModel = new AuthentificationModel();
-		$user = $authenticationModel->getLoggedUser();
+		$authenticationManager = new AuthentificationManager();
+		$user = $authenticationManager->getLoggedUser();
 		return $user;
 	}
 
 	/**
 	 * Autorise l'accès à un ou plusieurs rôles
-	 * @param mixed $roles Tableau de rôles, ou chaîne pour un seul
+	 * 		
+	 * @param  mixed $roles Tableau de rôles, ou chaîne pour un seul
 	 */
 	public function allowTo($roles)
 	{
 		if (!is_array($roles)){
 			$roles = [$roles];
 		}
-		$authorizationModel = new AuthorizationModel();
+		$authorizationManager = new AuthorizationManager();
 		foreach($roles as $role){
-			if ($authorizationModel->isGranted($role)){
+			if ($authorizationManager->isGranted($role)){
 				return true;
 			}
 		}
@@ -188,18 +151,17 @@ class Controller
 
 	/**
 	 * Retourne une réponse JSON au client
-	 * @param mixed $data Les données à retourner
-	 * @return les données au format json
+	 * @param  mixed $data Les données à retourner
 	 */
 	public function showJson($data)
 	{
-		header('Content-type: application/json');
+		header("Content-type: application/json");
 		$json = json_encode($data, JSON_PRETTY_PRINT);
-		if($json){
+		if ($json){
 			die($json);
 		}
 		else {
-			die('Error in json encoding');
+			die("error in json encoding");
 		}
 	}
 
