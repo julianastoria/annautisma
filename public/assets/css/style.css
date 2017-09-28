@@ -1,26 +1,5 @@
-html, body {
-	font-family: Consolas, monaco, monospace;
-	background-color: #272822;
-	color: #F8F8F2;
-}
+@import url(http://fonts.googleapis.com/css?family=Satisfy);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,700,600,400italic);
+@import url(http://fonts.googleapis.com/css?family=Oswald:300,400,700);
+ 
 
-.container {
-	margin: 50px;
-}
-
-a {
-	text-decoration: none;
-	color: #A6E22E;
-}
-
-a:hover {
-	color: #F92672;
-}
-
-h1 {
-	color: #F92672;
-}
-
-h2 {
-	color: #66D9EF;
-}

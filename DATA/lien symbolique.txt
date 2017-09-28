@@ -1,0 +1,7 @@
+New-Item -ItemType SymbolicLink -Path C:\xampp\htdocs\annautisma\public\assets\css\bootstrap.css -Target "C:\xampp\htdocs\annautisma\vendor\bower_components\bootstrap\dist\css\bootstrap.css"
+
+New-Item -ItemType SymbolicLink -Path C:\xampp\htdocs\annautisma\public\assets\js\bootstrap.js -Target "C:\xampp\htdocs\annautisma\vendor\bower_components\bootstrap\dist\js\bootstrap.js"
+
+New-Item -ItemType SymbolicLink -Path C:\xampp\htdocs\annautisma\public\assets\js\jquery.js -Target "C:\xampp\htdocs\annautisma\vendor\bower_components\jquery\dist\jquery.js"
+
+formation\
