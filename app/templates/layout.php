@@ -30,7 +30,7 @@
 	<header id="header">
 
 		<!--navbar -->
-<nav class="navbar navbar-default navbar-static-top" id="nav" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top" id="nav" role="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<a class="navbar-brand" href="<?= $this->url('home') ?>">Annautisma</a>
@@ -81,8 +81,8 @@
 			<li>
 				<div class="dropdown">
 					
-							<a href="#Medecins" class="btn btn-blue dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="button"><i class="fa fa-user-md visible-xs" aria-hidden="true"></i><p class="hidden-xs">Médecins</p></a>
-							 <span class="caret"></span>
+							<a href="#Medecins" class="btn btn-blue dropdown-toggle" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="button"><i class="fa fa-user-md visible-xs" aria-hidden="true"></i><p class="hidden-xs">Médecins</p><span class="caret"></span></a>
+							
 				  		
 				  		 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
 						    <li><a href="<?= $this->url('doctors_index',['type'=>'generaliste']) ?>">Généraliste</a></li>
@@ -119,7 +119,7 @@
 	</div>
 </nav>
 </header>
-<br>
+
 
 
 	
