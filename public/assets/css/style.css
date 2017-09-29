@@ -259,3 +259,12 @@ main a:focus {
 .thumbnail {
   border-color: #28ABE3;
 }
+
+/* boutons */
+.btn-purple {
+    background-color: #28ABE3;
+    text-transform: uppercase;
+    font-weight: 300;
+    color: #fff;
+    transition: all 0.3s;
+}

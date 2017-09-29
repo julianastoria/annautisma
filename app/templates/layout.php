@@ -54,22 +54,12 @@
 							<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu1">
 								 <li class="dropdown-submenu">
 								 	<a class="dropdown-toggle" data-toggle="dropdown" href="<?= $this->url('institutions_index',['type'=>'etablissementsspe']) ?>">Etablissements spécialisés</a>
-										 <ul class="dropdown-menu">
-									 		<li><a class="eta" href="<?= $this->url('institutions_index',['type'=>'ime']) ?>">IME</a></li>
-									 		<li><a class="eta" href="<?= $this->url('institutions_index',['type'=>'sessad']) ?>">SESSAD</a></li>
-									 		<li><a class="eta" href="<?= $this->url('institutions_index',['type'=>'ulis']) ?>">ULIS</a></li>
-									 		
-										</ul>
+										 
 								</li>	 		
 							
 
 								<li class="dropdown-submenu"><a href="<?= $this->url('institutions_index',['type'=>'ecoles']) ?>">Ecoles</a>
-						    		 <ul class="dropdown-menu">
-									 		<li><a class="eta" tabindex="-1" href="<?= $this->url('institutions_index',['type'=>'maternelle']) ?>">Maternelle</a></li>
-									 		<li><a class="eta" href="<?= $this->url('institutions_index',['type'=>'primaire']) ?>">Primaire</a></li>
-									 		<li><a class="eta" href="<?= $this->url('institutions_index',['type'=>'college']) ?>">Collège</a></li>
-									 		<li><a class="eta" href="<?= $this->url('institutions_index',['type'=>'lycee']) ?>">Lycée</a></li>
-										</ul>
+						    		 
 						    	</li>
 							</ul>
 					
